@@ -15,6 +15,7 @@ class IOSLauncher : IOSApplication.Delegate() {
 
 fun main(argv: Array<String>) {
     val pool = NSAutoreleasePool()
-    UIApplication.main(argv, null, IOSLauncher::class.java)
+    val principalClass: Class<UIApplication>? = null
+    UIApplication.main(argv, principalClass, IOSLauncher::class.java)
     pool.close()
 }
