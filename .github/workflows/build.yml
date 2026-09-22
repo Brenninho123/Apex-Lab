@@ -43,7 +43,8 @@ jobs:
           java-version: "17"
           cache: gradle
 
-      - uses: android-actions/setup-android@v3
+      - name: Accept Android SDK licenses
+        run: yes | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null
 
       - name: Make gradlew executable
         run: chmod +x gradlew
