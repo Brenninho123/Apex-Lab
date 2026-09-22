@@ -1,4 +1,5 @@
 apply plugin: "application"
+apply plugin: "com.github.johnrengelman.shadow"
 
 mainClassName = "com.apexlab.game.lwjgl3.Lwjgl3LauncherKt"
 application.mainClass = mainClassName
@@ -9,4 +10,8 @@ dependencies {
     implementation project(":core")
     implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+}
+
+shadowJar {
+    archiveFileName.set("apex-lab-desktop.jar")
 }

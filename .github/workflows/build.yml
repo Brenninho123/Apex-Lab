@@ -9,8 +9,18 @@ on:
 
 jobs:
   desktop:
-    name: Desktop (LWJGL3)
-    runs-on: ubuntu-latest
+    name: Desktop (${{ matrix.platform }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux
+          - os: windows-latest
+            platform: windows
+          - os: macos-latest
+            platform: macos
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
 
@@ -21,15 +31,29 @@ jobs:
           cache: gradle
 
       - name: Make gradlew executable
+        shell: bash
         run: chmod +x gradlew
 
-      - name: Build desktop module
-        run: ./gradlew :lwjgl3:build --no-daemon
+      - name: Build desktop fat jar
+        shell: bash
+        run: ./gradlew :lwjgl3:shadowJar --no-daemon
+
+      - name: Package native executable
+        shell: bash
+        run: |
+          "$JAVA_HOME/bin/jpackage" \
+            --input lwjgl3/build/libs \
+            --name ApexLab \
+            --main-jar apex-lab-desktop.jar \
+            --main-class com.apexlab.game.lwjgl3.Lwjgl3LauncherKt \
+            --app-version 1.0.0 \
+            --type app-image \
+            --dest dist
 
       - uses: actions/upload-artifact@v4
         with:
-          name: apex-lab-desktop
-          path: lwjgl3/build/libs/*.jar
+          name: apex-lab-desktop-${{ matrix.platform }}
+          path: dist
 
   android:
     name: Android

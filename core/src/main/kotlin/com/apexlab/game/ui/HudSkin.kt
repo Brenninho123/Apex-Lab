@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 
 object HudSkin {
@@ -38,6 +39,6 @@ object HudSkin {
         val texture = Texture(pixmap)
         pixmap.dispose()
         skin.add("$name-texture", texture)
-        skin.add(name, TextureRegionDrawable(TextureRegion(texture)))
+        skin.add(name, TextureRegionDrawable(TextureRegion(texture)), Drawable::class.java)
     }
 }
