@@ -1,12 +1,14 @@
 package com.apexlab.game.screens
 
 import com.apexlab.game.ApexLabGame
+import com.apexlab.game.data.SaveData
 import com.apexlab.game.ui.HudSkin
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.Table
@@ -32,6 +34,15 @@ class MenuScreen(private val game: ApexLabGame) : Screen {
         val subtitle = Label("Laboratory Experiment", skin)
         subtitle.color.a = 0.7f
 
+        val bestTime = SaveData.bestTime()
+        val statsText = if (bestTime >= 0f) {
+            "Best time: %.1fs  ·  Runs: %d".format(bestTime, SaveData.runsCompleted())
+        } else {
+            "No experiments completed yet"
+        }
+        val statsLabel = Label(statsText, skin)
+        statsLabel.color.a = 0.6f
+
         val startButton = TextButton("Start Experiment", skin)
         startButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
@@ -48,9 +59,13 @@ class MenuScreen(private val game: ApexLabGame) : Screen {
         })
 
         root.add(title).padBottom(8f).row()
-        root.add(subtitle).padBottom(48f).row()
+        root.add(subtitle).padBottom(16f).row()
+        root.add(statsLabel).padBottom(40f).row()
         root.add(startButton).width(260f).height(56f).padBottom(16f).row()
         root.add(exitButton).width(260f).height(56f)
+
+        root.color.a = 0f
+        root.addAction(Actions.fadeIn(0.4f))
     }
 
     override fun show() {

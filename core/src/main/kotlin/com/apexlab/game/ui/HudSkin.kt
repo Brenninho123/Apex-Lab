@@ -18,10 +18,13 @@ object HudSkin {
         skin.add("default-font", BitmapFont())
 
         addFlatDrawable(skin, "button-up", Color(0.16f, 0.42f, 0.62f, 1f))
+        addFlatDrawable(skin, "button-over", Color(0.21f, 0.52f, 0.74f, 1f))
         addFlatDrawable(skin, "button-down", Color(0.10f, 0.30f, 0.46f, 1f))
+        addFlatDrawable(skin, "panel", Color(0.04f, 0.06f, 0.10f, 0.85f))
 
         val buttonStyle = TextButton.TextButtonStyle()
         buttonStyle.up = skin.getDrawable("button-up")
+        buttonStyle.over = skin.getDrawable("button-over")
         buttonStyle.down = skin.getDrawable("button-down")
         buttonStyle.font = skin.getFont("default-font")
         skin.add("default", buttonStyle)
