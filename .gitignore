@@ -36,6 +36,7 @@ local.properties
 android/build/
 *.apk
 *.aab
+debug.keystore
 
 # iOS / RoboVM
 ios/build/
