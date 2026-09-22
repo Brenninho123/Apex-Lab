@@ -1,0 +1,43 @@
+apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
+
+android {
+    namespace = appPackage + ".android"
+    compileSdk androidApiLevel.toInteger()
+    buildToolsVersion androidBuildToolsVersion
+
+    defaultConfig {
+        applicationId appPackage
+        minSdk androidMinSdkVersion.toInteger()
+        targetSdk androidApiLevel.toInteger()
+        versionCode 1
+        versionName "1.0"
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile "src/main/AndroidManifest.xml"
+            kotlin.srcDirs = ["src/main/kotlin"]
+            res.srcDirs = ["src/main/res"]
+            assets.srcDirs = ["../assets"]
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    packagingOptions {
+        resources.excludes += "META-INF/robovm/ios/robovm.xml"
+    }
+}
+
+dependencies {
+    implementation project(":core")
+    implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
+}

@@ -1,0 +1,75 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  desktop:
+    name: Desktop (LWJGL3)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: gradle
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Build desktop module
+        run: ./gradlew :lwjgl3:build --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apex-lab-desktop
+          path: lwjgl3/build/libs/*.jar
+
+  android:
+    name: Android
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: gradle
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Build Android debug APK
+        run: ./gradlew :android:assembleDebug --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apex-lab-android
+          path: android/build/outputs/apk/debug/*.apk
+
+  ios:
+    name: iOS
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: gradle
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Build iOS module
+        run: ./gradlew :ios:build --no-daemon

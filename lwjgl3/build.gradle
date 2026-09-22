@@ -1,0 +1,12 @@
+apply plugin: "application"
+
+mainClassName = "com.apexlab.game.lwjgl3.Lwjgl3LauncherKt"
+application.mainClass = mainClassName
+
+sourceSets.main.resources.srcDirs += ["../assets"]
+
+dependencies {
+    implementation project(":core")
+    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+}

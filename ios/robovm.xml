@@ -1,0 +1,20 @@
+<config>
+    <executableName>IOSLauncher</executableName>
+    <mainClass>com.apexlab.game.ios.IOSLauncherKt</mainClass>
+    <os>ios</os>
+    <arch>thumbv7:arm64</arch>
+    <target>ios</target>
+    <iosInfoPList>Info.plist.xml</iosInfoPList>
+    <resources>
+        <resource>
+            <directory>../assets</directory>
+        </resource>
+        <resource>
+            <directory>data</directory>
+        </resource>
+    </resources>
+    <forceLinkClasses>
+        <pattern>com.apexlab.game.**</pattern>
+        <pattern>com.badlogic.gdx.backends.iosrobovm.IOSApplication$Listener</pattern>
+    </forceLinkClasses>
+</config>
