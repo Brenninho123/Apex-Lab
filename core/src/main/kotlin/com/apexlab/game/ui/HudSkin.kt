@@ -1,5 +1,6 @@
 package com.apexlab.game.ui
 
+import com.apexlab.game.theme.LabPalette
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
@@ -13,26 +14,44 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 
 object HudSkin {
 
+    const val PANEL = "panel"
+    const val TITLE = "title"
+    const val MUTED = "muted"
+    const val ACCENT = "accent"
+
     fun create(): Skin {
         val skin = Skin()
-        skin.add("default-font", BitmapFont())
+        val bodyFont = scaledFont(1.3f)
+        val titleFont = scaledFont(3.4f)
+        skin.add("body-font", bodyFont)
+        skin.add("title-font", titleFont)
 
-        addFlatDrawable(skin, "button-up", Color(0.16f, 0.42f, 0.62f, 1f))
-        addFlatDrawable(skin, "button-over", Color(0.21f, 0.52f, 0.74f, 1f))
-        addFlatDrawable(skin, "button-down", Color(0.10f, 0.30f, 0.46f, 1f))
-        addFlatDrawable(skin, "panel", Color(0.04f, 0.06f, 0.10f, 0.85f))
+        addFlatDrawable(skin, "button-up", LabPalette.button)
+        addFlatDrawable(skin, "button-over", LabPalette.buttonOver)
+        addFlatDrawable(skin, "button-down", LabPalette.buttonDown)
+        addFlatDrawable(skin, PANEL, LabPalette.panel)
 
         val buttonStyle = TextButton.TextButtonStyle()
         buttonStyle.up = skin.getDrawable("button-up")
         buttonStyle.over = skin.getDrawable("button-over")
         buttonStyle.down = skin.getDrawable("button-down")
-        buttonStyle.font = skin.getFont("default-font")
+        buttonStyle.font = bodyFont
+        buttonStyle.fontColor = LabPalette.text
         skin.add("default", buttonStyle)
 
-        val labelStyle = Label.LabelStyle(skin.getFont("default-font"), Color.WHITE)
-        skin.add("default", labelStyle)
+        skin.add("default", Label.LabelStyle(bodyFont, LabPalette.text))
+        skin.add(MUTED, Label.LabelStyle(bodyFont, LabPalette.mutedText))
+        skin.add(ACCENT, Label.LabelStyle(bodyFont, LabPalette.accent))
+        skin.add(TITLE, Label.LabelStyle(titleFont, LabPalette.accent))
 
         return skin
+    }
+
+    private fun scaledFont(scale: Float): BitmapFont {
+        val font = BitmapFont()
+        font.data.setScale(scale)
+        font.region.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
+        return font
     }
 
     private fun addFlatDrawable(skin: Skin, name: String, color: Color) {
